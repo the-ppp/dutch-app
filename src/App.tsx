@@ -19,10 +19,9 @@ function shuffledIndices(length: number) {
 const SWIPE_THRESHOLD = 60
 
 function App() {
-  const [order, setOrder] = useState<number[]>(() => words.map((_, i) => i))
+  const [order] = useState<number[]>(() => shuffledIndices(words.length))
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
-  const [isShuffled, setIsShuffled] = useState(false)
   const [direction, setDirection] = useState<Direction>('nl-en')
 
   const touchStart = useRef<{ x: number; y: number } | null>(null)
@@ -44,16 +43,6 @@ function App() {
   function goPrev() {
     setFlipped(false)
     setPos((p) => Math.max(0, p - 1))
-  }
-
-  function toggleShuffle() {
-    setIsShuffled((s) => {
-      const next = !s
-      setOrder(next ? shuffledIndices(words.length) : words.map((_, i) => i))
-      setPos(0)
-      setFlipped(false)
-      return next
-    })
   }
 
   function toggleDirection() {
@@ -108,12 +97,7 @@ function App() {
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
         <ProgressBar current={pos} total={order.length} />
-        <ModeBar
-          isShuffled={isShuffled}
-          onToggleShuffle={toggleShuffle}
-          direction={direction}
-          onToggleDirection={toggleDirection}
-        />
+        <ModeBar direction={direction} onToggleDirection={toggleDirection} />
       </header>
 
       <main className="flex flex-1 flex-col items-center justify-center py-6">
