@@ -4,3 +4,6 @@ dist-ssr
 *.local
 .DS_Store
 .vite-scaffold-tmp
+
+# Third-party design reference screenshots — not ours to redistribute
+references/
