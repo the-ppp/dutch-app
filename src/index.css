@@ -103,7 +103,16 @@ body {
   min-height: 100dvh;
 }
 
-@keyframes card-enter-from-right {
+@keyframes card-slide-out-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes card-slide-in-from-right {
   from {
     transform: translateX(100%);
   }
@@ -112,7 +121,16 @@ body {
   }
 }
 
-@keyframes card-enter-from-left {
+@keyframes card-slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes card-slide-in-from-left {
   from {
     transform: translateX(-100%);
   }

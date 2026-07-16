@@ -10,6 +10,15 @@ import { ResultsModal } from './components/ResultsModal'
 
 type Direction = 'nl-en' | 'en-nl'
 type Judgment = 'correct' | 'wrong'
+type CardSnapshot = {
+  front: string
+  back: string
+  frontLabel: string
+  backLabel: string
+  number: number
+  flipped: boolean
+}
+type SlideTransition = { id: number; direction: 'forward' | 'backward'; outgoing: CardSnapshot } | null
 
 function shuffledIndices(length: number) {
   const arr = Array.from({ length }, (_, i) => i)
@@ -26,7 +35,7 @@ function App() {
   const [order, setOrder] = useState<number[]>(() => shuffledIndices(words.length))
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
-  const [navDirection, setNavDirection] = useState<'forward' | 'backward'>('forward')
+  const [slideTransition, setSlideTransition] = useState<SlideTransition>(null)
   const [direction, setDirection] = useState<Direction>('nl-en')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [results, setResults] = useState<(Judgment | null)[]>(() => Array(order.length).fill(null))
@@ -34,6 +43,7 @@ function App() {
 
   const touchStart = useRef<{ x: number; y: number } | null>(null)
   const justSwiped = useRef(false)
+  const transitionIdRef = useRef(0)
 
   const wordIndex = order[pos]
   const card = words[wordIndex]
@@ -49,6 +59,15 @@ function App() {
   const hasNext = pos < answeredCount
   const currentMark = results[pos]
 
+  function beginSlide(dir: 'forward' | 'backward') {
+    transitionIdRef.current += 1
+    setSlideTransition({
+      id: transitionIdRef.current,
+      direction: dir,
+      outgoing: { front, back, frontLabel, backLabel, number: pos + 1, flipped },
+    })
+  }
+
   function beginSession(newOrder: number[]) {
     setOrder(newOrder)
     setPos(0)
@@ -59,14 +78,14 @@ function App() {
 
   function goNext() {
     if (pos >= answeredCount) return
+    beginSlide('forward')
     setFlipped(false)
-    setNavDirection('forward')
     setPos((p) => p + 1)
   }
 
   function goPrev() {
+    beginSlide('backward')
     setFlipped(false)
-    setNavDirection('backward')
     setPos((p) => Math.max(0, p - 1))
   }
 
@@ -82,7 +101,7 @@ function App() {
       return next
     })
     setFlipped(false)
-    setNavDirection('forward')
+    beginSlide('forward')
     if (pos + 1 >= order.length) {
       setShowResults(true)
     } else {
@@ -168,19 +187,48 @@ function App() {
           <div
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="flex w-full justify-center overflow-x-hidden"
+            className="relative flex w-full justify-center px-4 [overflow-x:clip]"
           >
-            <FlashCard
-              key={pos}
-              front={front}
-              back={back}
-              frontLabel={frontLabel}
-              backLabel={backLabel}
-              flipped={flipped}
-              onFlip={handleFlip}
-              number={pos + 1}
-              navDirection={navDirection}
-            />
+            <div className="relative w-full max-w-sm aspect-[3/4]">
+              {slideTransition && (
+                <div
+                  key={`out-${slideTransition.id}`}
+                  className="absolute inset-0 pointer-events-none"
+                  aria-hidden="true"
+                  style={{
+                    animation: `${
+                      slideTransition.direction === 'forward' ? 'card-slide-out-left' : 'card-slide-out-right'
+                    } 200ms ease-out forwards`,
+                  }}
+                >
+                  <FlashCard {...slideTransition.outgoing} onFlip={() => {}} />
+                </div>
+              )}
+              <div
+                key={pos}
+                className="absolute inset-0"
+                style={
+                  slideTransition
+                    ? {
+                        animation: `${
+                          slideTransition.direction === 'forward' ? 'card-slide-in-from-right' : 'card-slide-in-from-left'
+                        } 200ms ease-out forwards`,
+                      }
+                    : undefined
+                }
+                onAnimationEnd={() => setSlideTransition(null)}
+              >
+                <FlashCard
+                  front={front}
+                  back={back}
+                  frontLabel={frontLabel}
+                  backLabel={backLabel}
+                  flipped={flipped}
+                  onFlip={handleFlip}
+                  number={pos + 1}
+                />
+              </div>
+            </div>
           </div>
         </main>
 

@@ -6,10 +6,9 @@ type FlashCardProps = {
   flipped: boolean
   onFlip: () => void
   number: number
-  navDirection: 'forward' | 'backward'
 }
 
-export function FlashCard({ front, back, frontLabel, backLabel, flipped, onFlip, number, navDirection }: FlashCardProps) {
+export function FlashCard({ front, back, frontLabel, backLabel, flipped, onFlip, number }: FlashCardProps) {
   return (
     <button
       type="button"
@@ -17,11 +16,7 @@ export function FlashCard({ front, back, frontLabel, backLabel, flipped, onFlip,
       aria-label={
         flipped ? `${backLabel}: ${back}. Tap to show ${frontLabel}.` : `${frontLabel}: ${front}. Tap to reveal ${backLabel}.`
       }
-      className={`relative w-full max-w-sm aspect-[3/4] [perspective:1200px] focus:outline-none ${
-        navDirection === 'forward'
-          ? 'animate-[card-enter-from-right_180ms_ease-out]'
-          : 'animate-[card-enter-from-left_180ms_ease-out]'
-      }`}
+      className="absolute inset-0 [perspective:1200px] focus:outline-none"
     >
       <div
         className="relative h-full w-full rounded-3xl shadow-xl transition-transform duration-500 ease-out [transform-style:preserve-3d]"
