@@ -162,7 +162,7 @@ function App() {
 
         <main className="flex flex-1 flex-col items-center justify-center py-6">
           <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="flex w-full justify-center">
-            <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} />
+            <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} number={pos + 1} />
           </div>
         </main>
 
