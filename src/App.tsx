@@ -4,6 +4,8 @@ import { FlashCard } from './components/FlashCard'
 import { ProgressBar } from './components/ProgressBar'
 import { Controls } from './components/Controls'
 import { ModeBar } from './components/ModeBar'
+import { SettingsButton } from './components/SettingsButton'
+import { PracticeSettingsModal } from './components/PracticeSettingsModal'
 
 type Direction = 'nl-en' | 'en-nl'
 
@@ -19,10 +21,11 @@ function shuffledIndices(length: number) {
 const SWIPE_THRESHOLD = 60
 
 function App() {
-  const [order] = useState<number[]>(() => shuffledIndices(words.length))
+  const [order, setOrder] = useState<number[]>(() => shuffledIndices(words.length))
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [direction, setDirection] = useState<Direction>('nl-en')
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const touchStart = useRef<{ x: number; y: number } | null>(null)
   const justSwiped = useRef(false)
@@ -50,8 +53,16 @@ function App() {
     setFlipped(false)
   }
 
+  function startPractice(size: number) {
+    setOrder(shuffledIndices(words.length).slice(0, size))
+    setPos(0)
+    setFlipped(false)
+    setSettingsOpen(false)
+  }
+
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
+      if (settingsOpen) return
       if (e.key === 'ArrowRight') goNext()
       else if (e.key === 'ArrowLeft') goPrev()
       else if (e.key === ' ' || e.key === 'Enter') {
@@ -61,7 +72,7 @@ function App() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
+  }, [settingsOpen])
 
   function handleTouchStart(e: React.TouchEvent) {
     const t = e.touches[0]
@@ -97,8 +108,9 @@ function App() {
       </div>
 
       <div className="flex flex-1 flex-col px-5">
-        <div className="pt-3">
+        <div className="flex items-center justify-between pt-3">
           <ModeBar direction={direction} onToggleDirection={toggleDirection} />
+          <SettingsButton onClick={() => setSettingsOpen(true)} />
         </div>
 
         <main className="flex flex-1 flex-col items-center justify-center py-6">
@@ -111,6 +123,15 @@ function App() {
           <Controls onPrev={goPrev} onNext={goNext} hasPrev={pos > 0} />
         </footer>
       </div>
+
+      {settingsOpen && (
+        <PracticeSettingsModal
+          totalWords={words.length}
+          currentSize={order.length}
+          onConfirm={startPractice}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
     </div>
   )
 }
