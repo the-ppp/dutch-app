@@ -6,8 +6,10 @@ import { Controls } from './components/Controls'
 import { ModeBar } from './components/ModeBar'
 import { SettingsButton } from './components/SettingsButton'
 import { PracticeSettingsModal } from './components/PracticeSettingsModal'
+import { ResultsModal } from './components/ResultsModal'
 
 type Direction = 'nl-en' | 'en-nl'
+type Judgment = 'correct' | 'wrong'
 
 function shuffledIndices(length: number) {
   const arr = Array.from({ length }, (_, i) => i)
@@ -26,6 +28,8 @@ function App() {
   const [flipped, setFlipped] = useState(false)
   const [direction, setDirection] = useState<Direction>('nl-en')
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [results, setResults] = useState<(Judgment | null)[]>(() => Array(order.length).fill(null))
+  const [showResults, setShowResults] = useState(false)
 
   const touchStart = useRef<{ x: number; y: number } | null>(null)
   const justSwiped = useRef(false)
@@ -38,9 +42,24 @@ function App() {
   const frontLabel = direction === 'nl-en' ? 'Dutch' : 'English'
   const backLabel = direction === 'nl-en' ? 'English' : 'Dutch'
 
-  function goNext() {
+  const correctCount = results.filter((r) => r === 'correct').length
+  const wrongCount = results.filter((r) => r === 'wrong').length
+  const answeredCount = results.filter((r) => r !== null).length
+  const hasNext = pos < answeredCount
+  const currentMark = results[pos]
+
+  function beginSession(newOrder: number[]) {
+    setOrder(newOrder)
+    setPos(0)
     setFlipped(false)
-    setPos((p) => (p + 1 >= order.length ? 0 : p + 1))
+    setResults(Array(newOrder.length).fill(null))
+    setShowResults(false)
+  }
+
+  function goNext() {
+    if (pos >= answeredCount) return
+    setFlipped(false)
+    setPos((p) => p + 1)
   }
 
   function goPrev() {
@@ -53,16 +72,44 @@ function App() {
     setFlipped(false)
   }
 
-  function startPractice(size: number) {
-    setOrder(shuffledIndices(words.length).slice(0, size))
-    setPos(0)
+  function mark(judgment: Judgment) {
+    setResults((r) => {
+      const next = [...r]
+      next[pos] = judgment
+      return next
+    })
     setFlipped(false)
+    if (pos + 1 >= order.length) {
+      setShowResults(true)
+    } else {
+      setPos((p) => p + 1)
+    }
+  }
+
+  function markWrong() {
+    mark('wrong')
+  }
+
+  function markCorrect() {
+    mark('correct')
+  }
+
+  function startPractice(size: number) {
+    beginSession(shuffledIndices(words.length).slice(0, size))
     setSettingsOpen(false)
+  }
+
+  function handleRepeat() {
+    beginSession(order)
+  }
+
+  function handleNewCards() {
+    beginSession(shuffledIndices(words.length).slice(0, order.length))
   }
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (settingsOpen) return
+      if (settingsOpen || showResults) return
       if (e.key === 'ArrowRight') goNext()
       else if (e.key === 'ArrowLeft') goPrev()
       else if (e.key === ' ' || e.key === 'Enter') {
@@ -72,7 +119,7 @@ function App() {
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [settingsOpen])
+  }, [settingsOpen, showResults, pos, order.length, results])
 
   function handleTouchStart(e: React.TouchEvent) {
     const t = e.touches[0]
@@ -120,7 +167,17 @@ function App() {
         </main>
 
         <footer className="pb-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
-          <Controls onPrev={goPrev} onNext={goNext} hasPrev={pos > 0} />
+          <Controls
+            onPrev={goPrev}
+            onNext={goNext}
+            hasPrev={pos > 0}
+            hasNext={hasNext}
+            onMarkWrong={markWrong}
+            onMarkCorrect={markCorrect}
+            wrongCount={wrongCount}
+            correctCount={correctCount}
+            currentMark={currentMark}
+          />
         </footer>
       </div>
 
@@ -131,6 +188,10 @@ function App() {
           onConfirm={startPractice}
           onClose={() => setSettingsOpen(false)}
         />
+      )}
+
+      {showResults && (
+        <ResultsModal correctCount={correctCount} wrongCount={wrongCount} onRepeat={handleRepeat} onNewCards={handleNewCards} />
       )}
     </div>
   )
