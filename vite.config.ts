@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/dutch-app/',
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -19,8 +19,8 @@ export default defineConfig({
         theme_color: '#58CC02',
         background_color: '#ffffff',
         display: 'standalone',
-        start_url: '/dutch-app/',
-        scope: '/dutch-app/',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
             src: 'icons/icon-192.png',

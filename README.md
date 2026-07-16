@@ -2,7 +2,7 @@
 
 A small installable PWA for drilling the 1,000 most common Dutch words: one card at a time, Dutch on the front, tap to reveal the English translation on the back.
 
-Live at: https://the-ppp.github.io/dutch-app/
+Live at: (Vercel URL — to be added once deployed)
 
 ## Stack
 
@@ -40,4 +40,4 @@ npm run build
 npm run preview   # sanity-check the production build locally
 ```
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds and publishes to GitHub Pages automatically.
+Pushing to `main` triggers an automatic deploy via Vercel's GitHub integration (build command `npm run build`, output dir `dist`).
