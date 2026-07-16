@@ -26,6 +26,7 @@ function App() {
   const [order, setOrder] = useState<number[]>(() => shuffledIndices(words.length))
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
+  const [navDirection, setNavDirection] = useState<'forward' | 'backward'>('forward')
   const [direction, setDirection] = useState<Direction>('nl-en')
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [results, setResults] = useState<(Judgment | null)[]>(() => Array(order.length).fill(null))
@@ -59,11 +60,13 @@ function App() {
   function goNext() {
     if (pos >= answeredCount) return
     setFlipped(false)
+    setNavDirection('forward')
     setPos((p) => p + 1)
   }
 
   function goPrev() {
     setFlipped(false)
+    setNavDirection('backward')
     setPos((p) => Math.max(0, p - 1))
   }
 
@@ -79,6 +82,7 @@ function App() {
       return next
     })
     setFlipped(false)
+    setNavDirection('forward')
     if (pos + 1 >= order.length) {
       setShowResults(true)
     } else {
@@ -161,8 +165,22 @@ function App() {
         </div>
 
         <main className="flex flex-1 flex-col items-center justify-center py-6">
-          <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="flex w-full justify-center">
-            <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} number={pos + 1} />
+          <div
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="flex w-full justify-center overflow-x-hidden"
+          >
+            <FlashCard
+              key={pos}
+              front={front}
+              back={back}
+              frontLabel={frontLabel}
+              backLabel={backLabel}
+              flipped={flipped}
+              onFlip={handleFlip}
+              number={pos + 1}
+              navDirection={navDirection}
+            />
           </div>
         </main>
 
