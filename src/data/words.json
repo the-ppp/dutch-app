@@ -57,7 +57,7 @@
   },
   {
     "dutch": "wel",
-    "english": "as many as"
+    "english": "1. indeed, really (modal particle, e.g. \"ik denk het wel\" = I do think so); 2. as many as (before a number, e.g. \"wel duizend\")"
   },
   {
     "dutch": "kan",
@@ -89,7 +89,7 @@
   },
   {
     "dutch": "het",
-    "english": "it"
+    "english": "1. it; 2. the (before neuter/het-nouns)"
   },
   {
     "dutch": "bent",
@@ -124,8 +124,8 @@
     "english": "along/together/with"
   },
   {
-    "dutch": "het",
-    "english": "the, it"
+    "dutch": "de zomer",
+    "english": "the summer"
   },
   {
     "dutch": "dat",
@@ -265,7 +265,7 @@
   },
   {
     "dutch": "over",
-    "english": "1. over, about; 2. [om kvart ~ zeven] at quarter past seven; 3."
+    "english": "1. over, about; 2. [om kwart ~ zeven] at quarter past seven; 3. left, remaining"
   },
   {
     "dutch": "doen",
@@ -353,7 +353,7 @@
   },
   {
     "dutch": "echt",
-    "english": "really"
+    "english": "really; real"
   },
   {
     "dutch": "denk",
@@ -589,7 +589,7 @@
   },
   {
     "dutch": "misschien",
-    "english": "perhaps"
+    "english": "perhaps, maybe"
   },
   {
     "dutch": "laten",
@@ -653,7 +653,7 @@
   },
   {
     "dutch": "heel",
-    "english": "very"
+    "english": "1. very (adverb); 2. whole, entire (adjective)"
   },
   {
     "dutch": "nodig",
@@ -812,8 +812,8 @@
     "english": "1. as... as; 2. [hij is ~ oud ~ ik] he is as old as me"
   },
   {
-    "dutch": "misschien",
-    "english": "maybe"
+    "dutch": "de winter",
+    "english": "the winter"
   },
   {
     "dutch": "rustig",
@@ -864,8 +864,8 @@
     "english": "pretty, beautiful"
   },
   {
-    "dutch": "heel",
-    "english": "all, whole"
+    "dutch": "de lente",
+    "english": "the spring (season)"
   },
   {
     "dutch": "vinden",
@@ -1608,8 +1608,8 @@
     "english": "(you) need to, (he) needs to"
   },
   {
-    "dutch": "echt",
-    "english": "real"
+    "dutch": "de herfst",
+    "english": "the autumn, fall"
   },
   {
     "dutch": "de papa",
@@ -1933,7 +1933,7 @@
   },
   {
     "dutch": "de haat",
-    "english": "the hate"
+    "english": "the hate, hatred"
   },
   {
     "dutch": "de plek",
@@ -2196,8 +2196,8 @@
     "english": "the baby"
   },
   {
-    "dutch": "de haat",
-    "english": "the hatred, the hate"
+    "dutch": "het weer",
+    "english": "the weather"
   },
   {
     "dutch": "dezelfde",
@@ -2264,8 +2264,8 @@
     "english": "the part, portion"
   },
   {
-    "dutch": "pakken",
-    "english": "to pack"
+    "dutch": "de winkel",
+    "english": "the shop, store"
   },
   {
     "dutch": "het antwoord",
@@ -2369,7 +2369,7 @@
   },
   {
     "dutch": "pakken",
-    "english": "to grab"
+    "english": "to grab, take, catch, catch hold of"
   },
   {
     "dutch": "loopt",
@@ -2464,8 +2464,8 @@
     "english": "to trust"
   },
   {
-    "dutch": "niet alleen",
-    "english": "not only"
+    "dutch": "de keuken",
+    "english": "the kitchen"
   },
   {
     "dutch": "meer dan",
@@ -2873,7 +2873,7 @@
   },
   {
     "dutch": "zeven",
-    "english": "1. seven; 2. [om kvart voor ~] at quarter to seven"
+    "english": "1. seven; 2. [om kwart voor ~] at quarter to seven"
   },
   {
     "dutch": "hoef",
@@ -3477,7 +3477,7 @@
   },
   {
     "dutch": "raken",
-    "english": "to hit, to make a hit, touch:"
+    "english": "to hit, to touch, to make contact with"
   },
   {
     "dutch": "totdat",
@@ -3609,7 +3609,7 @@
   },
   {
     "dutch": "vertelt",
-    "english": "(you) tell, narrate (he) tells, narrates"
+    "english": "(you) tell, narrate; (he) tells, narrates"
   },
   {
     "dutch": "geweldige",
@@ -3649,7 +3649,7 @@
   },
   {
     "dutch": "de rust",
-    "english": "the rest, relaxation,"
+    "english": "the rest, relaxation, peace and quiet"
   },
   {
     "dutch": "de ouwe",
@@ -3938,5 +3938,65 @@
   {
     "dutch": "het laken",
     "english": "1. the (bed)sheet; 2. tablecloth"
+  },
+  {
+    "dutch": "negen",
+    "english": "nine"
+  },
+  {
+    "dutch": "elf",
+    "english": "eleven"
+  },
+  {
+    "dutch": "twaalf",
+    "english": "twelve"
+  },
+  {
+    "dutch": "maandag",
+    "english": "Monday"
+  },
+  {
+    "dutch": "dinsdag",
+    "english": "Tuesday"
+  },
+  {
+    "dutch": "woensdag",
+    "english": "Wednesday"
+  },
+  {
+    "dutch": "donderdag",
+    "english": "Thursday"
+  },
+  {
+    "dutch": "vrijdag",
+    "english": "Friday"
+  },
+  {
+    "dutch": "zaterdag",
+    "english": "Saturday"
+  },
+  {
+    "dutch": "zondag",
+    "english": "Sunday"
+  },
+  {
+    "dutch": "rood",
+    "english": "red"
+  },
+  {
+    "dutch": "blauw",
+    "english": "blue"
+  },
+  {
+    "dutch": "groen",
+    "english": "green"
+  },
+  {
+    "dutch": "geel",
+    "english": "yellow"
+  },
+  {
+    "dutch": "wit",
+    "english": "white"
   }
 ]
