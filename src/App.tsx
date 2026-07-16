@@ -190,7 +190,7 @@ function App() {
             className="relative w-screen ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] [overflow-x:clip]"
           >
             <div className="flex justify-center px-5">
-              <div className="relative w-full max-w-sm aspect-[3/4]">
+              <div className="relative w-full max-w-sm aspect-[7/10]">
                 {slideTransition && (
                   <div
                     key={`out-${slideTransition.id}`}
