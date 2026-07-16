@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
 type PracticeSettingsModalProps = {
   totalWords: number
@@ -14,6 +14,7 @@ export function PracticeSettingsModal({ totalWords, currentSize, onConfirm, onCl
   const maxSize = Math.max(MIN_SIZE, Math.floor(totalWords / STEP) * STEP)
   const [size, setSize] = useState(() => Math.min(currentSize, maxSize))
   const rangeRef = useRef<HTMLInputElement>(null)
+  const pct = ((size - MIN_SIZE) / (maxSize - MIN_SIZE)) * 100
 
   useEffect(() => {
     rangeRef.current?.focus()
@@ -45,8 +46,12 @@ export function PracticeSettingsModal({ totalWords, currentSize, onConfirm, onCl
           <span aria-hidden="true">✕</span>
         </button>
 
-        <h2 id="practice-settings-title" className="pr-8 text-lg font-extrabold text-ink">
-          I just want to practice <span className="text-primary">{size}</span> words
+        <h2 id="practice-settings-title" className="text-center">
+          <span className="block text-lg font-bold text-ink">I just want to practice</span>
+          <span className="mt-1 flex items-baseline justify-center gap-2">
+            <span className="text-5xl font-extrabold tabular-nums text-primary">{size}</span>
+            <span className="text-lg font-bold text-ink">words</span>
+          </span>
         </h2>
 
         <input
@@ -58,6 +63,7 @@ export function PracticeSettingsModal({ totalWords, currentSize, onConfirm, onCl
           value={size}
           onChange={(e) => setSize(Number(e.target.value))}
           className="mt-6 w-full"
+          style={{ '--range-progress': `${pct}%` } as CSSProperties}
           aria-label="Number of words to practice"
         />
 
