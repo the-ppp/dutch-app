@@ -183,50 +183,52 @@ function App() {
           <SettingsButton onClick={() => setSettingsOpen(true)} />
         </div>
 
-        <main className="flex flex-1 flex-col items-center justify-center py-6">
+        <main className="flex flex-1 flex-col justify-center py-6">
           <div
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="relative flex w-full justify-center [overflow-x:clip] -mx-5"
+            className="relative w-screen ml-[calc(50%-50vw)] mr-[calc(50%-50vw)] [overflow-x:clip]"
           >
-            <div className="relative w-full max-w-sm aspect-[3/4]">
-              {slideTransition && (
+            <div className="flex justify-center px-5">
+              <div className="relative w-full max-w-sm aspect-[3/4]">
+                {slideTransition && (
+                  <div
+                    key={`out-${slideTransition.id}`}
+                    className="absolute inset-0 pointer-events-none"
+                    aria-hidden="true"
+                    style={{
+                      animation: `${
+                        slideTransition.direction === 'forward' ? 'card-slide-out-left' : 'card-slide-out-right'
+                      } 200ms ease-out forwards`,
+                    }}
+                  >
+                    <FlashCard {...slideTransition.outgoing} onFlip={() => {}} />
+                  </div>
+                )}
                 <div
-                  key={`out-${slideTransition.id}`}
-                  className="absolute inset-0 pointer-events-none"
-                  aria-hidden="true"
-                  style={{
-                    animation: `${
-                      slideTransition.direction === 'forward' ? 'card-slide-out-left' : 'card-slide-out-right'
-                    } 200ms ease-out forwards`,
-                  }}
+                  key={pos}
+                  className="absolute inset-0"
+                  style={
+                    slideTransition
+                      ? {
+                          animation: `${
+                            slideTransition.direction === 'forward' ? 'card-slide-in-from-right' : 'card-slide-in-from-left'
+                          } 200ms ease-out forwards`,
+                        }
+                      : undefined
+                  }
+                  onAnimationEnd={() => setSlideTransition(null)}
                 >
-                  <FlashCard {...slideTransition.outgoing} onFlip={() => {}} />
+                  <FlashCard
+                    front={front}
+                    back={back}
+                    frontLabel={frontLabel}
+                    backLabel={backLabel}
+                    flipped={flipped}
+                    onFlip={handleFlip}
+                    number={pos + 1}
+                  />
                 </div>
-              )}
-              <div
-                key={pos}
-                className="absolute inset-0"
-                style={
-                  slideTransition
-                    ? {
-                        animation: `${
-                          slideTransition.direction === 'forward' ? 'card-slide-in-from-right' : 'card-slide-in-from-left'
-                        } 200ms ease-out forwards`,
-                      }
-                    : undefined
-                }
-                onAnimationEnd={() => setSlideTransition(null)}
-              >
-                <FlashCard
-                  front={front}
-                  back={back}
-                  frontLabel={frontLabel}
-                  backLabel={backLabel}
-                  flipped={flipped}
-                  onFlip={handleFlip}
-                  number={pos + 1}
-                />
               </div>
             </div>
           </div>
