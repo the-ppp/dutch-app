@@ -91,24 +91,26 @@ function App() {
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5">
-      <header
-        className="flex flex-col gap-3 pt-4"
-        style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
-      >
+    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
+      <div style={{ paddingTop: 'env(safe-area-inset-top)' }}>
         <ProgressBar current={pos} total={order.length} />
-        <ModeBar direction={direction} onToggleDirection={toggleDirection} />
-      </header>
+      </div>
 
-      <main className="flex flex-1 flex-col items-center justify-center py-6">
-        <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="flex w-full justify-center">
-          <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} />
+      <div className="flex flex-1 flex-col px-5">
+        <div className="pt-3">
+          <ModeBar direction={direction} onToggleDirection={toggleDirection} />
         </div>
-      </main>
 
-      <footer className="pb-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
-        <Controls onPrev={goPrev} onNext={goNext} hasPrev={pos > 0} />
-      </footer>
+        <main className="flex flex-1 flex-col items-center justify-center py-6">
+          <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="flex w-full justify-center">
+            <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} />
+          </div>
+        </main>
+
+        <footer className="pb-4" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+          <Controls onPrev={goPrev} onNext={goNext} hasPrev={pos > 0} />
+        </footer>
+      </div>
     </div>
   )
 }
