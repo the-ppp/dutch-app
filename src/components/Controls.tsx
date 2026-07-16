@@ -37,8 +37,8 @@ export function Controls({
         type="button"
         onClick={onMarkWrong}
         aria-label={`Mark wrong. ${wrongCount} wrong so far.`}
-        className={`flex h-14 flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 text-base font-extrabold transition active:translate-y-0.5 ${
-          currentMark === 'wrong' ? 'border-danger bg-danger-light text-danger' : 'border-track bg-white text-muted'
+        className={`flex h-14 flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 border-danger text-base font-extrabold transition active:translate-y-0.5 ${
+          currentMark === 'wrong' ? 'bg-danger text-white' : 'bg-white text-danger'
         }`}
       >
         <span aria-hidden="true">✕</span>
@@ -49,8 +49,8 @@ export function Controls({
         type="button"
         onClick={onMarkCorrect}
         aria-label={`Mark correct. ${correctCount} correct so far.`}
-        className={`flex h-14 flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 text-base font-extrabold transition active:translate-y-0.5 ${
-          currentMark === 'correct' ? 'border-primary bg-primary-light text-primary' : 'border-track bg-white text-muted'
+        className={`flex h-14 flex-1 items-center justify-center gap-1.5 rounded-2xl border-2 border-primary text-base font-extrabold transition active:translate-y-0.5 ${
+          currentMark === 'correct' ? 'bg-primary text-white' : 'bg-white text-primary'
         }`}
       >
         <span className="tabular-nums">{correctCount}</span>
