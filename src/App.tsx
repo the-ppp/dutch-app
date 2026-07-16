@@ -3,6 +3,9 @@ import words from './data/words.json'
 import { FlashCard } from './components/FlashCard'
 import { ProgressBar } from './components/ProgressBar'
 import { Controls } from './components/Controls'
+import { ModeBar } from './components/ModeBar'
+
+type Direction = 'nl-en' | 'en-nl'
 
 function shuffledIndices(length: number) {
   const arr = Array.from({ length }, (_, i) => i)
@@ -20,12 +23,18 @@ function App() {
   const [pos, setPos] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [isShuffled, setIsShuffled] = useState(false)
+  const [direction, setDirection] = useState<Direction>('nl-en')
 
   const touchStart = useRef<{ x: number; y: number } | null>(null)
   const justSwiped = useRef(false)
 
   const wordIndex = order[pos]
   const card = words[wordIndex]
+
+  const front = direction === 'nl-en' ? card.dutch : card.english
+  const back = direction === 'nl-en' ? card.english : card.dutch
+  const frontLabel = direction === 'nl-en' ? 'Dutch' : 'English'
+  const backLabel = direction === 'nl-en' ? 'English' : 'Dutch'
 
   function goNext() {
     setFlipped(false)
@@ -45,6 +54,11 @@ function App() {
       setFlipped(false)
       return next
     })
+  }
+
+  function toggleDirection() {
+    setDirection((d) => (d === 'nl-en' ? 'en-nl' : 'nl-en'))
+    setFlipped(false)
   }
 
   useEffect(() => {
@@ -90,26 +104,21 @@ function App() {
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-5">
       <header
-        className="flex items-center gap-3 pt-4"
+        className="flex flex-col gap-3 pt-4"
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
         <ProgressBar current={pos} total={order.length} />
-        <button
-          type="button"
-          onClick={toggleShuffle}
-          aria-pressed={isShuffled}
-          aria-label={isShuffled ? 'Shuffle on, tap to turn off' : 'Shuffle off, tap to turn on'}
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl transition ${
-            isShuffled ? 'bg-accent-light text-accent-dark' : 'bg-track text-muted'
-          }`}
-        >
-          🔀
-        </button>
+        <ModeBar
+          isShuffled={isShuffled}
+          onToggleShuffle={toggleShuffle}
+          direction={direction}
+          onToggleDirection={toggleDirection}
+        />
       </header>
 
       <main className="flex flex-1 flex-col items-center justify-center py-6">
         <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} className="flex w-full justify-center">
-          <FlashCard dutch={card.dutch} english={card.english} flipped={flipped} onFlip={handleFlip} />
+          <FlashCard front={front} back={back} frontLabel={frontLabel} backLabel={backLabel} flipped={flipped} onFlip={handleFlip} />
         </div>
       </main>
 
