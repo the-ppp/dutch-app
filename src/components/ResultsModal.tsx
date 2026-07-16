@@ -54,13 +54,13 @@ export function ResultsModal({ correctCount, wrongCount, onRepeat, onNewCards }:
         </div>
 
         <div className="mt-6 flex justify-center gap-6">
-          <span className="flex items-center gap-1.5 text-lg font-extrabold text-primary">
-            <span aria-hidden="true">✓</span>
-            <span className="tabular-nums">{correctCount}</span>
-          </span>
           <span className="flex items-center gap-1.5 text-lg font-extrabold text-danger">
             <span aria-hidden="true">✕</span>
             <span className="tabular-nums">{wrongCount}</span>
+          </span>
+          <span className="flex items-center gap-1.5 text-lg font-extrabold text-primary">
+            <span aria-hidden="true">✓</span>
+            <span className="tabular-nums">{correctCount}</span>
           </span>
         </div>
 
