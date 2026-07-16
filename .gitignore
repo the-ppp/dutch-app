@@ -5,6 +5,8 @@ dist-ssr
 .DS_Store
 .vite-scaffold-tmp
 ~$*.xlsx
+references
+.claude/
 
 # Third-party design reference screenshots — not ours to redistribute
 references/
