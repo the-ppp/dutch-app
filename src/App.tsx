@@ -187,7 +187,7 @@ function App() {
           <div
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
-            className="relative flex w-full justify-center px-4 [overflow-x:clip]"
+            className="relative flex w-full justify-center [overflow-x:clip] -mx-5"
           >
             <div className="relative w-full max-w-sm aspect-[3/4]">
               {slideTransition && (
